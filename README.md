@@ -46,7 +46,7 @@ $ npm install v-track-img --save
 
 ```js
 import Vue from "vue"
-import VTrackImg from "v-track"
+import VTrackImg from "v-track-img"
 import trackEvents from "./track-events"
 
 Vue.use(VTrackImg, {

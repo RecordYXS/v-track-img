@@ -7,5 +7,4 @@ import trackEvents from "./events";
 export default {
   ...trackEvents
 };
-console.log(trackEvents,"1")
 

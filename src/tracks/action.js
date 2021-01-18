@@ -8,13 +8,13 @@
 import object from './object'
 import send from './send'
 
-let trackConfig = {
+let trackBaseConfig = {
   url:"", //域名
   channel:"", //渠道
   whiteList:[],// 白名单列表，在白名单的地址不会发送埋点请求
 } 
-export function trackConfig (trackBaseConfig) {
-  trackConfig = trackBaseConfig
+export function trackConfig (config) {
+  trackBaseConfig = config
 } 
 /**
  * 埋点Action
@@ -25,7 +25,7 @@ export function trackAction(evt, page, clickOperate = '', addtional = {},uid = "
   }
   let data = {
     action:"",  //访问类型  clickview | pageview
-    channel:trackConfig.channel, //渠道
+    channel:trackBaseConfig.channel, //渠道
     page,   //访问页面
     clickOperate, //点击按钮的操作  列：查询|新增|编辑|查看|删除|导出|购买 等   如果action是clickview,那么clickOperate是必填项
     params:{...addtional},  //传递的参数
@@ -58,7 +58,7 @@ export function trackAction(evt, page, clickOperate = '', addtional = {},uid = "
     // console.log("点击事件埋点");
   }
   data.sessionId = localStorage.getItem("sessionId")
-  if(trackConfig.whiteList.indexOf(data.page) == -1 || evt == "4"){
-    send(trackConfig.url + "?" + object.toQueryString(data)) //发送埋点数据
+  if(trackBaseConfig.whiteList.indexOf(data.page) == -1 || evt == "4"){
+    send(trackBaseConfig.url + "?" + object.toQueryString(data)) //发送埋点数据
   }
 }
