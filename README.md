@@ -68,7 +68,7 @@ Vue.use(VTrackImg, {
 /*
 window.trackAction( //发送点击事件的埋点
     evt, //访问类型1-pvuv,2-统计页面停留时间埋点，3-点击事件，4-白名单
-    page,  //页面url
+    page,  //页面路由对象 context.$router.currentRoute
     clickOperate,  //点击按钮的操作  例：查询|新增|编辑| 等
     item,  //埋点传的参数
     uid   //用户id
@@ -81,7 +81,7 @@ export default {
    * @param {Object} context 当前上下文
    */
   UVPV(context) {
-    page = context.$router.currentRoute.path
+    page = context.$router.currentRoute
     window.trackAction("1",page,"");
   },
   /**
@@ -104,7 +104,7 @@ export default {
    * @param {Object} event 事件对象
    */
   10001(context,item) {
-    page = context.$root._route.path //当前路由
+    page = context.$root._route //当前路由
     window.trackAction("4",page ,"",item, item.uid);
   },
   ...

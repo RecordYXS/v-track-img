@@ -35,8 +35,8 @@ export default {
 		return arr.join('&')
 	},
 	//获取url参数
-	getQueryVariable: function(query,variable){
-		// var query = window.location.search.substring(1);
+	getQueryVariable: function(path,variable){
+		var query = path.substring(1);
 		var vars = query.split("&");
 		for (var i=0;i<vars.length;i++) {
 				var pair = vars[i].split("=");

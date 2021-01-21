@@ -2,7 +2,7 @@
  * @Author: 于晓松
  * @Date: 2020-11-09 16:23:00
  */
-let page =""
+let page = {}
 export default {
   /**
    * @name UVPV 固定名称不支持修改
@@ -10,7 +10,10 @@ export default {
    * @param {Object} context 当前上下文
    */
   UVPV(context) {
-    page = ""
+    page = {
+      path:"",
+      fullPath:""
+    }
     window.trackAction("1",page,"");
   },
   /**
@@ -33,7 +36,10 @@ export default {
    * @param {Object} event 事件对象
    */
   10001(context,item) {
-    page = ""
+    page = {
+      path:"",
+      fullPath:""
+    }
     window.trackAction("4",page ,"",item);
   },
     /**

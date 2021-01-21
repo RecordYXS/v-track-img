@@ -12,9 +12,11 @@ let trackBaseConfig = {
   url:"", //域名
   channel:"", //渠道
   whiteList:[],// 白名单列表，在白名单的地址不会发送埋点请求
+  znsr:"", //本站
 } 
 export function trackConfig (config) {
   trackBaseConfig = config
+  trackBaseConfig.znsr = config.channel
 } 
 /**
  * 埋点Action
@@ -23,21 +25,21 @@ export function trackAction(evt, page, clickOperate = '', addtional = {},uid = "
   if(localStorage.getItem("guid")==null){ //获取唯一标识
     localStorage.setItem("guid",object.guid())
   }
+  const channelCode = object.getQueryVariable(page.fullPath,"channelcode")
+  if(channelCode && channelCode != ""){
+    trackBaseConfig.channel = channelCode
+  }
   let data = {
     action:"",  //访问类型  clickview | pageview
     channel:trackBaseConfig.channel, //渠道
-    page,   //访问页面
+    page:page.path,   //访问页面
     clickOperate, //点击按钮的操作  列：查询|新增|编辑|查看|删除|导出|购买 等   如果action是clickview,那么clickOperate是必填项
     params:{...addtional},  //传递的参数
     ts: new Date().getTime(),  //时间戳
     uuid:localStorage.getItem("guid"), //唯一标识
     uid:uid, //用户id
-    znsr:trackBaseConfig.channel, //本站
+    znsr:trackBaseConfig.znsr, //本站
   };
-  const channelCode = object.getQueryVariable(page,"channelcode")
-  if(channelCode && channelCode!=""){
-    data.channel = channelCode
-  }
   if (evt === "1" || evt === "4") {
     data.action = "pageView"
     if(localStorage.getItem("sessionTime")==null){ //判断session是否存在，如果不存在则添加一个
