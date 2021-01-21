@@ -52,7 +52,7 @@ import trackEvents from "./track-events"
 Vue.use(VTrackImg, {
   trackEvents,// 埋点事件对象
   trackEnable: {
-    UVPV: "routeUpdate",// 是否开启UVPV统计，routeUpdate即在当前路由参数发生改变时埋点，默认为false
+    UVPV: true,// 是否开启UVPV统计，routeUpdate即在当前路由参数发生改变时埋点，默认为false
     TONP: false // 是否开启页面停留时长统计，默认为false
   },
   trackBaseConfig: {
@@ -82,7 +82,7 @@ export default {
    */
   UVPV(context) {
     page = context.$router.currentRoute.path
-    trackAction("1",page,"");
+    window.trackAction("1",page,"");
   },
   /**
    * @name TONP 固定名称不支持修改

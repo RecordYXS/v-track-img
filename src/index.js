@@ -61,7 +61,9 @@ export default class VTrackImg {
       // 统计UV、PV
       beforeRouteEnter(_, __, next) {
         next(vm => {
-          trackEnable.UVPV && trackEvents.UVPV(vm);
+          if(vm.$vnode.key){
+            trackEnable.UVPV && trackEvents.UVPV(vm);
+          }
         });
       },
       beforeRouteUpdate(_, __, next) {

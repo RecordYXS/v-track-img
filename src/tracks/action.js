@@ -32,8 +32,12 @@ export function trackAction(evt, page, clickOperate = '', addtional = {},uid = "
     ts: new Date().getTime(),  //时间戳
     uuid:localStorage.getItem("guid"), //唯一标识
     uid:uid, //用户id
+    znsr:trackBaseConfig.channel, //本站
   };
-
+  const channelCode = object.getQueryVariable(page,"channelcode")
+  if(channelCode && channelCode!=""){
+    data.channel = channelCode
+  }
   if (evt === "1" || evt === "4") {
     data.action = "pageView"
     if(localStorage.getItem("sessionTime")==null){ //判断session是否存在，如果不存在则添加一个
