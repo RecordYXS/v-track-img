@@ -2,7 +2,7 @@
  * @Author: yuxiaosong
  * @Date: 2021-01-15 11:55:01
  * @Last Modified by: yuxiaosong
- * @Last Modified time: 2021-01-15 11:55:01
+ * @Last Modified time: 2021-01-28 13:55:01
  */
 
 import object from './object'
@@ -12,19 +12,24 @@ let trackBaseConfig = {
   url:"", //域名
   channel:"", //渠道
   whiteList:[],// 白名单列表，在白名单的地址不会发送埋点请求
-  znsr:"", //本站
+  project:"", //项目
 } 
 export function trackConfig (config) {
   trackBaseConfig = config
-  trackBaseConfig.znsr = config.channel
 } 
 /**
  * 埋点Action
  */
 export function trackAction(evt, page, clickOperate = '', addtional = {},uid = "") {
+  //如果是手动修改channel，则替换原有的channel
+  if(evt == 5){
+    trackBaseConfig.channel = addtional.channel
+    return false
+  }
   if(localStorage.getItem("guid")==null){ //获取唯一标识
     localStorage.setItem("guid",object.guid())
   }
+  //判断url里面是否有channelcode参数，如果有则替换channel
   const channelCode = object.getQueryVariable(page.fullPath,"channelcode")
   if(channelCode && channelCode != ""){
     trackBaseConfig.channel = channelCode
@@ -38,7 +43,7 @@ export function trackAction(evt, page, clickOperate = '', addtional = {},uid = "
     ts: new Date().getTime(),  //时间戳
     uuid:localStorage.getItem("guid"), //唯一标识
     uid:uid, //用户id
-    znsr:trackBaseConfig.znsr, //本站
+    project:trackBaseConfig.project, //项目
   };
   if (evt === "1" || evt === "4") {
     data.action = "pageView"

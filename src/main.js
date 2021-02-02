@@ -11,6 +11,7 @@ Vue.use(VTrackImg, {
   trackBaseConfig: {
     url:"", //域名
     channel:"", //渠道
+    project:"",//项目
     whiteList:[],// 白名单列表，在白名单的地址不会发送埋点请求
   }
 });

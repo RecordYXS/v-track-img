@@ -43,13 +43,14 @@ export default {
     window.trackAction("4",page ,"",item);
   },
     /**
-   * @desc 点击事件
+   * @desc 自定义修改渠道
+   * @name 10002 修改channel（自定义）
    * @param {Object} context 当前上下文
    * @param {Object} item 事件参数
    * @param {Object} event 事件对象
    */
-  10002({age, username, clickOperate}) {
-    window.trackAction("3", page, clickOperate, {age,username});
+  10002(context,item) {
+    window.trackAction("5", "", "", item);
   },
   
 };
