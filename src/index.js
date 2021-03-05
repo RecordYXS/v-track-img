@@ -6,6 +6,9 @@
  */
 import * as hooks from "./hooks";
 import { trackConfig, trackAction } from "./tracks/action";
+import * as Sentry from "@sentry/browser";
+import { Vue as VueIntegration } from "@sentry/integrations";
+import { Integrations } from "@sentry/tracing";
 
 export default class VTrackImg {
   constructor() {
@@ -14,7 +17,7 @@ export default class VTrackImg {
   // 保存当前点击的元素
   // static target = null;
   // Vue.use 将执行此方法
-  static install(Vue, { trackEvents, trackEnable = {}, trackBaseConfig = {} }) {
+  static install(Vue, { trackEvents, trackEnable = {}, trackBaseConfig = {}, sentryConfig = {} }) {
     trackEnable = {
       UVPV: false,
       TONP: false,
@@ -23,6 +26,23 @@ export default class VTrackImg {
     if(trackBaseConfig != {}){
       trackConfig(trackBaseConfig)
     }
+    if(sentryConfig != {}){
+      //sentry  获取报错信息  只有在正式环境才会发送报错数据
+      sentryConfig.env == "production" && Sentry.init({
+        dsn: sentryConfig.dsn,
+        integrations: [
+          new VueIntegration({
+            Vue,
+            tracing: true,
+          }),
+          new Integrations.BrowserTracing(),
+        ],
+        release: sentryConfig.release,
+        logErrors: true,
+        tracesSampleRate: 1.0,
+      });
+    }
+
     window.trackAction = trackAction;
     const TRACK_TONP = (ctx, et) => {
       if (trackEnable.TONP) {
