@@ -59,6 +59,11 @@ Vue.use(VTrackImg, {
     url:"", //图片域名
     channel:"", //渠道
     whiteList:[],// 白名单列表，在白名单的地址不会自动发送埋点请求
+  },
+  sentryConfig:{ //sentyr配置
+    dsn: "",
+    release: '',
+    env: process.env.VUE_APP_ENV
   }
 });
 ```
