@@ -9,7 +9,7 @@ import { trackConfig, trackAction } from "./tracks/action";
 import * as Sentry from "@sentry/browser";
 import { Vue as VueIntegration } from "@sentry/integrations";
 import { Integrations } from "@sentry/tracing";
-
+window.pageName = ""
 export default class VTrackImg {
   constructor() {
     this.installed = false;
@@ -73,15 +73,16 @@ export default class VTrackImg {
 
     Vue.mixin({
       data: () => ({
-        PAGE_ENTER_TIME: Date.now()
+        PAGE_ENTER_TIME: Date.now(),
       }),
       created() {
         window.onbeforeunload = () => TRACK_TONP(this, this.PAGE_ENTER_TIME);
       },
       // 统计UV、PV
-      beforeRouteEnter(_, __, next) {
+      beforeRouteEnter(to, form, next) {
         next(vm => {
-          if(vm.$vnode.key){
+          if(to.name != window.pageName){
+            window.pageName = to.name;
             trackEnable.UVPV && trackEvents.UVPV(vm);
           }
         });
